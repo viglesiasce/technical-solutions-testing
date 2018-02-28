@@ -1,0 +1,41 @@
+platform: linux
+inputs:
+- name: source-code
+outputs:
+- name: email
+image_resource:
+    type: docker-image
+    source:
+      repository: google/cloud-sdk
+      tag: latest
+params:
+  service_account_json:
+run:
+  path: bash
+  args:
+  - -exc
+  - |
+    set -o pipefail
+
+    # Install dependencies that are not in gcloud Docker image
+    apt-get install -y git openssl wget
+
+    # Save service account to disk
+    cat > service_account.json <<EOF
+    $service_account_json
+    EOF
+
+    # Activate service account
+    gcloud auth activate-service-account --key-file=service_account.json
+
+    # Go into your repository
+    cd source-code
+    # Setup email subject and body
+    echo "Your Tutorial failed to run" > ../email/subject-failed
+    git --no-pager show > ../email/body-failed
+
+    # Ensure you are running from a clean state
+    ./tests/scripts/cleanup.sh | tee ../email/body-failed
+
+    # Run the tutorial
+    ./tests/scripts/run-tutorial.sh | tee ../email/body-failed
