@@ -1,0 +1,9 @@
+# Details for the e-mail provider
+smtp_host: <FILL_ME_IN>
+smtp_port: <FILL_ME_IN>
+smtp_username: <FILL_ME_IN>
+smtp_password: <FILL_ME_IN>
+# Who to send failure emails to
+maintainer_email: <FILL_ME_IN>
+# Service account used to run your tests
+service_account_json: <FILL_ME_IN>
