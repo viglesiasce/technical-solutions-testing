@@ -10,7 +10,7 @@ resources:
 - name: source-code
   type: git
   source:
-    uri: https://github.com/viglesiasce/sample-app.git
+    uri: https://github.com/viglesiasce/technical-solutions-testing
     branch: master
 # Configure a time based trigger
 - name: once-a-day
